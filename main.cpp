@@ -201,6 +201,7 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
+	image_post.quality(70);
 	image_post.url(argv[1]);
 	image_post.start();
 

@@ -16,6 +16,12 @@ public:
 
 	long response_code() const;
 
+	int quality() const;
+	void quality(const int &val);
+
+	int interval() const;
+	void interval(const int &val);
+
 	cv::Mat image();
 	void image(const cv::Mat &image);
 
@@ -37,7 +43,9 @@ protected:
 
 	CURL *curl_;
 	long response_code_;
-	
+
+	int quality_;
+	int interval_;
 };
 
 #endif //#ifndef __IMAGE_POST_H__

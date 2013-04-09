@@ -7,7 +7,8 @@ int writer_(char *data, size_t size, size_t nmemb, char *writer_data)
 	return size * nmemb;
 }
 
-ImagePost::ImagePost() : quit_flag_(false), curl_(NULL), response_code_(0)
+ImagePost::ImagePost()
+	: quit_flag_(false), curl_(NULL), response_code_(0), quality_(90), interval_(100)
 {
 	curl_ = curl_easy_init();
 	curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, writer_);
@@ -32,6 +33,26 @@ void ImagePost::url(const std::string &val)
 long ImagePost::response_code() const
 {
 	return response_code_;
+}
+
+int ImagePost::quality() const
+{
+	return quality_;
+}
+
+void ImagePost::quality(const int &val)
+{
+	quality_ = val;
+}
+
+int ImagePost::interval() const
+{
+	return interval_;
+}
+
+void ImagePost::interval(const int &val)
+{
+	interval_ = val;
 }
 
 cv::Mat ImagePost::image()
@@ -73,7 +94,7 @@ void ImagePost::run()
 {
 	while(!quit_flag_) {
 		post_();	
-		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(interval_));
 	}
 }
 
@@ -85,7 +106,7 @@ void ImagePost::post_()
 
 	std::vector<int> params(2);
 	params[0] = CV_IMWRITE_JPEG_QUALITY;
-	params[1] = 90;
+	params[1] = quality_;
 	std::vector<uchar> buf;
 	cv::imencode(".jpg", img, buf, params);
 
