@@ -80,13 +80,18 @@ void process_image()
 	cv::resize(capture_img, result_img, result_img.size());
 
 	// draw result
-	cv::Scalar color = CV_RGB(255, 0, 0);
 	int code = image_post.response_code();
 	if (200 <= code && code < 400) {
-		color = CV_RGB(0, 255, 0);
+		cv::circle(result_img, cv::Point(50, 50), 50, CV_RGB(0, 255, 0), CV_FILLED);
 	}
-	cv::circle(result_img, cv::Point(50, 50), 50, color, CV_FILLED);
+	else {
+		// blink
+		if (count % 8 < 4) {
+			cv::circle(result_img, cv::Point(50, 50), 50, CV_RGB(255, 0, 0), CV_FILLED);
+		}
+	}
 
+	// for debug
 	count ++;
 	if (count == 100) {
 		double t = (get_time() - st) / 100;
