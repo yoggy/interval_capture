@@ -1,11 +1,14 @@
 //
-//	 - OpenCV & SDL sample program for Raspberry Pi
+//	interval_capture - image capture & post image program for Raspberry Pi
 //
 //	How to Build
+//		$ sudo apt-get install libcurl4-openssl-dev 
 //		$ sudo apt-get install libopencv-dev
 //		$ sudo apt-get install libsdl1.2-dev
 //		$ sudo apt-get install libboost-all-dev
 //		$ sudo apt-get install cmake
+//		$ git clone https://github.com/yoggy/interval_capture.git
+//		$ cd interval_capture
 //		$ cmake .
 //		$ make
 //
@@ -70,8 +73,19 @@ void process_image()
 	static int count = 0;
 	static double st = get_time();
 
+	// upload capture image
+	image_post.image(capture_img);
+
 	// dummy
 	cv::resize(capture_img, result_img, result_img.size());
+
+	// draw result
+	cv::Scalar color = CV_RGB(255, 0, 0);
+	int code = image_post.response_code();
+	if (200 <= code && code < 400) {
+		color = CV_RGB(0, 255, 0);
+	}
+	cv::circle(result_img, cv::Point(50, 50), 50, color, CV_FILLED);
 
 	count ++;
 	if (count == 100) {
@@ -189,7 +203,6 @@ int main(int argc, char **argv)
 		process_capture();
 		process_image();
 		draw();
-		image_post.image(result_img);
 		process_event();
 	} 
 

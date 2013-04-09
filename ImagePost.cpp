@@ -1,9 +1,16 @@
 #include "ImagePost.h"
 #include <opencv2/highgui/highgui.hpp>
 
+int writer_(char *data, size_t size, size_t nmemb, char *writer_data)
+{
+	// nothing to do...
+	return size * nmemb;
+}
+
 ImagePost::ImagePost() : quit_flag_(false), curl_(NULL), response_code_(0)
 {
 	curl_ = curl_easy_init();
+	curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, writer_);
 	//curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1L);
 }
 
@@ -20,6 +27,11 @@ std::string ImagePost::url() const
 void ImagePost::url(const std::string &val)
 {
 	url_ = val;
+}
+
+long ImagePost::response_code() const
+{
+	return response_code_;
 }
 
 cv::Mat ImagePost::image()
