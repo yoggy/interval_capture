@@ -10,6 +10,7 @@ how to build
   $ sudo apt-get install libcurl4-openssl-dev
   $ sudo apt-get install libopencv-dev
   $ sudo apt-get install libsdl1.2-dev
+  $ sudo usermod -a -G video,input,audio pi
   $ sudo apt-get install libboost-all-dev
   $ sudo apt-get install cmake
   $ git clone https://github.com/yoggy/interval_capture.git
