@@ -8,7 +8,8 @@ int writer_(char *data, size_t size, size_t nmemb, char *writer_data)
 }
 
 ImagePost::ImagePost()
-	: quit_flag_(false), curl_(NULL), response_code_(0), quality_(90), interval_(100)
+	: quit_flag_(false), curl_(NULL), name_("camera0"),
+	response_code_(0), quality_(90), interval_(100)
 {
 	curl_ = curl_easy_init();
 	curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, writer_);
@@ -53,6 +54,16 @@ int ImagePost::interval() const
 void ImagePost::interval(const int &val)
 {
 	interval_ = val;
+}
+
+std::string ImagePost::name() const
+{
+	return name_;
+}
+
+void ImagePost::name(const std::string &val)
+{
+	name_ = val;
 }
 
 cv::Mat ImagePost::image()
@@ -117,7 +128,7 @@ void ImagePost::post_()
 	curl_formadd(
 		&form_ptr, &last_ptr,
 		CURLFORM_COPYNAME, "name",
-		CURLFORM_COPYCONTENTS, "camera0",
+		CURLFORM_COPYCONTENTS, name_.c_str(),
 		CURLFORM_END);
 
 	curl_formadd(

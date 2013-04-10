@@ -22,12 +22,12 @@ usage
 ============
 <pre>
   $ ./interval_capture
-  usage : ./interval_capture [image_post_url]
-  
-      example
-          %s http://example.com/path/to/post
-  
-  $ ./interval_capture http://example.com/image_post
+  usage : ./interval_capture [camera_name] [interval(ms)] [jpeg_quality] [image_post_url]
+
+    example
+        ./interval_capture camera0 1000 90 http://example.com/path/to/post
+
+  $ ./interval_capture camera1 100 70 http://example.com/image_post
   
 </pre>
 

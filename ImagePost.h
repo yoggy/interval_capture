@@ -22,6 +22,9 @@ public:
 	int interval() const;
 	void interval(const int &val);
 
+	std::string name() const;
+	void name(const std::string &val);
+
 	cv::Mat image();
 	void image(const cv::Mat &image);
 
@@ -36,6 +39,7 @@ protected:
 protected:
 	cv::Mat image_;
 	std::string url_;
+	std::string name_;
 
 	boost::thread thread_;
 	boost::mutex mutex_;

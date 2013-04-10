@@ -181,17 +181,17 @@ void process_event()
 
 void usage(int argc, char **argv)
 {
-	printf("usage : %s [image_post_url]\n", argv[0]);
+	printf("usage : %s [camera_name] [interval(ms)] [jpeg_quality] [image_post_url] \n", argv[0]);
 	printf("\n");
 	printf("    example\n");
-	printf("        %s http://example.com/path/to/post\n", argv[0]);
+	printf("        %s camera0 1000 90 http://example.com/path/to/post\n", argv[0]);
 	printf("\n");
 	exit(EXIT_FAILURE);
 }
 
 int main(int argc, char **argv)
 {
-	if (argc != 2) usage(argc, argv);
+	if (argc != 5) usage(argc, argv);
 
 	if (!init_opencv()) {
 		return EXIT_FAILURE;
@@ -201,8 +201,10 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	image_post.quality(70);
-	image_post.url(argv[1]);
+	image_post.name(argv[1]);
+	image_post.interval(atoi(argv[2]));
+	image_post.quality(atoi(argv[3]));
+	image_post.url(argv[4]);
 	image_post.start();
 
 	while(!quit_flag) {
